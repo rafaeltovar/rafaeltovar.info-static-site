@@ -10,10 +10,9 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: #fff;
       font-family: 'Libre Baskerville', serif;
-      color: #232323;
       min-height: 100vh;
+      /* color and background set by theme classes */
     }
     body {
       display: flex;
@@ -60,64 +59,125 @@
         font-size: 1rem;
       }
     }
+
+    /* Light theme */
+    .theme-light {
+      background: #fff;
+      color: #232323;
+    }
+    .theme-light .links-list a {
+      color: #7a7a7a;
+    }
+    .theme-light .links-list a:hover {
+      color: #232323;
+    }
+
+    /* Dark theme */
+    .theme-dark {
+      background: #181818;
+      color: #eaeaea;
+    }
+    .theme-dark .links-list a {
+      color: #bdbdbd;
+    }
+    .theme-dark .links-list a:hover {
+      color: #eaeaea;
+    }
+
+    /* Switchers */
+    .switchers {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 1rem;
+      z-index: 10;
+    }
+    .switch-link {
+      font-size: 0.9rem;
+      color: #bbb;
+      text-decoration: none;
+      font-family: sans-serif;
+      letter-spacing: 1px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .switch-link:focus {
+      outline: 1px dotted #bbb;
+    }
   </style>
 </head>
 <body>
-  <a id="lang-switch" href="#" style="
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 0.9rem;
-    color: #bbb;
-    text-decoration: none;
-    font-family: sans-serif;
-    letter-spacing: 1px;
-    z-index: 10;
-  ">[ES]</a>
-  <div class="main-text" style="display: block;">
-    <span id="saludo">Hi</span>,<br/> 
-    <span id="main-text-en">
-      I'm Rafael Tovar. I build things with code, shoot analog photos, and go looking for new routes on my bike. <br/>Sometimes, that's when the best ideas show up.
-    </span>
-    <span id="main-text-es" style="display: none;">
-      Soy Rafael Tovar. Construyo cosas con código, disparo fotos en analógico y busco nuevas rutas con mi bici <br/>A veces, es ahí cuando aparecen las mejores ideas.
-    </span>
-  </div>
-  <ul class="links-list">
-    <li><a href="https://github.com/rafaeltovar" target="_blank">Code repositories</a></li>
-    <li><a href="https://rafaeltovar.tumblr.com" target="_blank">Photography</a></li>
-  </ul>
-  <script>
-    const saludos = ["Hi", "Hola", "Ciao", "Salut", "Hoi", "Olá"];
-    let idx = 0;
-    let lang = "en"; // default language
-    let intervalId = null;
+    <div class="switchers">
+      <a id="lang-switch" class="switch-link" href="#">[ES]</a>
+      <button id="theme-switch" class="switch-link" type="button">🌙</button>
+    </div>
+    <div class="main-text" style="display: block;">
+      <span id="saludo">Hi</span>,<br/> 
+      <span id="main-text-en">
+        I'm Rafael Tovar. I build things with code, shoot analog photos, and go looking for new routes on my bike. <br/>Sometimes, that's when the best ideas show up.
+      </span>
+      <span id="main-text-es" style="display: none;">
+        Soy Rafael Tovar. Construyo cosas con código, disparo fotos en analógico y busco nuevas rutas con mi bici <br/>A veces, es ahí cuando aparecen las mejores ideas.
+      </span>
+    </div>
+    <ul class="links-list">
+      <li><a href="https://github.com/rafaeltovar" target="_blank">Code repositories</a></li>
+      <li><a href="https://rafaeltovar.tumblr.com" target="_blank">Photography</a></li>
+      <li><a href="https://open.spotify.com/user/fitopaldi" target="_blank">Playlists</a></li>
+    </ul>
+    <script>
+      const saludos = ["Hi", "Hola", "Ciao", "Salut", "Hoi", "Olá"];
+      let idx = 0;
+      let lang = "en"; // default language
+      let intervalId = null;
 
-    function switchLang() {
-      lang = lang === "en" ? "es" : "en";
-      document.getElementById('main-text-en').style.display = lang === "en" ? "inherit" : "none";
-      document.getElementById('main-text-es').style.display = lang === "es" ? "inherit" : "none";
-      document.getElementById('lang-switch').textContent = lang === "en" ? "[ES]" : "[EN]";
-      idx = 0;
-      clearInterval(intervalId);
+      // Theme logic
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const themeKey = 'theme';
+      let theme = localStorage.getItem(themeKey) || (prefersDark ? 'dark' : 'light');
+
+      function applyTheme() {
+        document.documentElement.classList.remove('theme-light', 'theme-dark');
+        document.documentElement.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+        document.getElementById('theme-switch').textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+
+      document.getElementById('theme-switch').addEventListener('click', function() {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem(themeKey, theme);
+        applyTheme();
+      });
+
+      applyTheme();
+
+      // Language logic
+      function switchLang() {
+        lang = lang === "en" ? "es" : "en";
+        document.getElementById('main-text-en').style.display = lang === "en" ? "inherit" : "none";
+        document.getElementById('main-text-es').style.display = lang === "es" ? "inherit" : "none";
+        document.getElementById('lang-switch').textContent = lang === "en" ? "[ES]" : "[EN]";
+        idx = 0;
+        clearInterval(intervalId);
+        startSaludoInterval();
+      }
+
+      document.getElementById('lang-switch').addEventListener('click', function(e) {
+        e.preventDefault();
+        switchLang();
+      });
+
+      function startSaludoInterval() {
+        intervalId = setInterval(() => {
+          idx = (idx + 1) % saludos.length;
+          const saludoSpan = document.getElementById('saludo');
+          if (saludoSpan) saludoSpan.textContent = saludos[idx];
+        }, 1000);
+      }
+
       startSaludoInterval();
-    }
-
-    document.getElementById('lang-switch').addEventListener('click', function(e) {
-      e.preventDefault();
-      switchLang();
-    });
-
-    function startSaludoInterval() {
-      intervalId = setInterval(() => {
-        idx = (idx + 1) % saludos.length;
-        const saludoSpan = document.getElementById('saludo');
-        if (saludoSpan) saludoSpan.textContent = saludos[idx];
-        
-      }, 1000);
-    }
-
-    startSaludoInterval();
-  </script>
-</body>
+    </script>
+  </body>
 </html>
