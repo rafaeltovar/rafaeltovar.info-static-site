@@ -107,6 +107,21 @@
     .switch-link:focus {
       outline: 1px dotted #bbb;
     }
+    
+    /* Watermelon icon */
+    .watermelon {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1rem;
+      z-index: 10;
+      cursor: pointer;
+      transition: right 0.3s ease, left 0.3s ease;
+    }
+    .watermelon.left {
+      right: auto;
+      left: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -128,6 +143,7 @@
       <li><a href="https://rafaeltovar.tumblr.com" target="_blank">Photography</a></li>
       <li><a href="https://open.spotify.com/user/fitopaldi" target="_blank">Playlists</a></li>
     </ul>
+    <div class="watermelon">🍉</div>
     <script>
       const saludos = ["Hi", "Hola", "Ciao", "Salut", "Hoi", "Olá"];
       let idx = 0;
@@ -178,6 +194,11 @@
       }
 
       startSaludoInterval();
+
+      // Watermelon position toggle
+      document.querySelector('.watermelon').addEventListener('click', function() {
+        this.classList.toggle('left');
+      });
     </script>
   </body>
 </html>
