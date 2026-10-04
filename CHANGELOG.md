@@ -7,6 +7,8 @@ The project has no version numbers, so released changes are grouped by the date 
 
 ## Unreleased
 
+## 2026-10-04
+
 ### Added
 
 - `AGENTS.md` with guidelines for AI agents (branch naming, commits and pushes, changelog), linked as `CLAUDE.md`.
