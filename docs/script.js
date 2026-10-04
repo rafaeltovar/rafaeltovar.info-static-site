@@ -3,18 +3,34 @@ let idx = 0;
 let lang = "en"; // default language
 let intervalId = null;
 
-// Theme logic
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const langSwitch = document.getElementById('lang-switch');
+const themeSwitch = document.getElementById('theme-switch');
+const watermelon = document.querySelector('.watermelon');
+
+// Accessible labels for the icon-only buttons, per language
+const labels = {
+  en: { lang: "Cambiar a español", dark: "Switch to dark theme", light: "Switch to light theme", watermelon: "Move the watermelon" },
+  es: { lang: "Switch to English", dark: "Cambiar a tema oscuro", light: "Cambiar a tema claro", watermelon: "Mover la sandía" }
+};
+
+function updateLabels() {
+  langSwitch.setAttribute('aria-label', labels[lang].lang);
+  themeSwitch.setAttribute('aria-label', theme === 'dark' ? labels[lang].light : labels[lang].dark);
+  watermelon.setAttribute('aria-label', labels[lang].watermelon);
+}
+
+// Theme logic (the initial theme is applied by theme-init.js)
 const themeKey = 'theme';
-let theme = localStorage.getItem(themeKey) || (prefersDark ? 'dark' : 'light');
+let theme = document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light';
 
 function applyTheme() {
   document.documentElement.classList.remove('theme-light', 'theme-dark');
   document.documentElement.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
-  document.getElementById('theme-switch').textContent = theme === 'dark' ? '☀️' : '🌙';
+  themeSwitch.textContent = theme === 'dark' ? '☀️' : '🌙';
+  updateLabels();
 }
 
-document.getElementById('theme-switch').addEventListener('click', function() {
+themeSwitch.addEventListener('click', function() {
   theme = theme === 'dark' ? 'light' : 'dark';
   localStorage.setItem(themeKey, theme);
   applyTheme();
@@ -22,21 +38,21 @@ document.getElementById('theme-switch').addEventListener('click', function() {
 
 applyTheme();
 
-// Language logic
+// Language logic: show only the elements whose lang attribute matches the current language
 function switchLang() {
   lang = lang === "en" ? "es" : "en";
-  document.getElementById('main-text-en').style.display = lang === "en" ? "inherit" : "none";
-  document.getElementById('main-text-es').style.display = lang === "es" ? "inherit" : "none";
-  document.getElementById('lang-switch').textContent = lang === "en" ? "[ES]" : "[EN]";
+  document.documentElement.lang = lang;
+  document.querySelectorAll('body [lang]').forEach(function(el) {
+    el.hidden = el.lang !== lang;
+  });
+  langSwitch.textContent = lang === "en" ? "[ES]" : "[EN]";
+  updateLabels();
   idx = 0;
   clearInterval(intervalId);
   startSaludoInterval();
 }
 
-document.getElementById('lang-switch').addEventListener('click', function(e) {
-  e.preventDefault();
-  switchLang();
-});
+langSwitch.addEventListener('click', switchLang);
 
 function startSaludoInterval() {
   intervalId = setInterval(() => {
@@ -49,6 +65,6 @@ function startSaludoInterval() {
 startSaludoInterval();
 
 // Watermelon position toggle
-document.querySelector('.watermelon').addEventListener('click', function() {
+watermelon.addEventListener('click', function() {
   this.classList.toggle('left');
 });

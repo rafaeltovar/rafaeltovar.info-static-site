@@ -10,6 +10,7 @@ It is published with GitHub Pages from the `docs/` directory of the `main` branc
 - `docs/index.html` — the page
 - `docs/style.css` — styles
 - `docs/script.js` — behaviour (greeting rotation, language and theme switchers)
+- `docs/theme-init.js` — applies the saved/preferred theme from `<head>`, before the page is painted
 - `docs/CNAME` — custom domain for GitHub Pages; do not modify or remove it
 
 ## Branches

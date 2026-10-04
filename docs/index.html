@@ -1,32 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rafael Tovar</title>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
+  <script src="theme-init.js"></script>
 </head>
 <body>
-    <div class="switchers">
-      <a id="lang-switch" class="switch-link" href="#">[ES]</a>
-      <button id="theme-switch" class="switch-link" type="button">🌙</button>
-    </div>
-    <div class="main-text" style="display: block;">
-      <span id="saludo">Hi</span>,<br/> 
-      <span id="main-text-en">
-        I'm Rafael Tovar. I build things with code, shoot analog photos, and go looking for new routes on my bike. <br/>Sometimes, that's when the best ideas show up.
+  <div class="switchers">
+    <button id="lang-switch" class="switch-link" type="button" aria-label="Cambiar a español">[ES]</button>
+    <button id="theme-switch" class="switch-link" type="button">🌙</button>
+  </div>
+  <main>
+    <p class="main-text">
+      <span id="saludo">Hi</span>,<br/>
+      <span lang="en">
+        I'm Rafael Tovar. I build things with code, shoot analog photos, and go looking for new routes on my bike.<br/>Sometimes, that's when the best ideas show up.
       </span>
-      <span id="main-text-es" style="display: none;">
-        Soy Rafael Tovar. Construyo cosas con código, disparo fotos en analógico y busco nuevas rutas con mi bici <br/>A veces, es ahí cuando aparecen las mejores ideas.
+      <span lang="es" hidden>
+        Soy Rafael Tovar. Construyo cosas con código, disparo fotos en analógico y busco nuevas rutas con mi bici.<br/>A veces, es ahí cuando aparecen las mejores ideas.
       </span>
-    </div>
-    <ul class="links-list">
-      <li><a href="https://github.com/rafaeltovar" target="_blank">Code repositories</a></li>
-      <li><a href="https://rafaeltovar.tumblr.com" target="_blank">Photography</a></li>
-      <li><a href="https://open.spotify.com/user/fitopaldi" target="_blank">Playlists</a></li>
-    </ul>
-    <div class="watermelon">🍉</div>
-    <script src="script.js"></script>
-  </body>
+    </p>
+    <nav>
+      <ul class="links-list">
+        <li><a href="https://github.com/rafaeltovar" target="_blank"><span lang="en">Code repositories</span><span lang="es" hidden>Repositorios de código</span></a></li>
+        <li><a href="https://rafaeltovar.tumblr.com" target="_blank"><span lang="en">Photography</span><span lang="es" hidden>Fotografía</span></a></li>
+        <li><a href="https://open.spotify.com/user/fitopaldi" target="_blank"><span lang="en">Playlists</span><span lang="es" hidden>Listas de música</span></a></li>
+      </ul>
+    </nav>
+  </main>
+  <button class="watermelon" type="button" aria-label="Move the watermelon">🍉</button>
+  <script src="script.js"></script>
+</body>
 </html>
