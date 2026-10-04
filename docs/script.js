@@ -7,10 +7,10 @@ const langSwitch = document.getElementById('lang-switch');
 const themeSwitch = document.getElementById('theme-switch');
 const watermelon = document.querySelector('.watermelon');
 
-// Accessible labels for the icon-only buttons, per language
+// Page title and accessible labels for the icon-only buttons, per language
 const labels = {
-  en: { lang: "Cambiar a español", dark: "Switch to dark theme", light: "Switch to light theme", watermelon: "Move the watermelon" },
-  es: { lang: "Switch to English", dark: "Cambiar a tema oscuro", light: "Cambiar a tema claro", watermelon: "Mover la sandía" }
+  en: { title: "Home - Rafael Tovar", lang: "Cambiar a español", dark: "Switch to dark theme", light: "Switch to light theme", watermelon: "Move the watermelon" },
+  es: { title: "Principal - Rafael Tovar", lang: "Switch to English", dark: "Cambiar a tema oscuro", light: "Cambiar a tema claro", watermelon: "Mover la sandía" }
 };
 
 function updateLabels() {
@@ -42,6 +42,7 @@ applyTheme();
 function switchLang() {
   lang = lang === "en" ? "es" : "en";
   document.documentElement.lang = lang;
+  document.title = labels[lang].title;
   document.querySelectorAll('body [lang]').forEach(function(el) {
     el.hidden = el.lang !== lang;
   });

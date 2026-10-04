@@ -24,3 +24,15 @@ Name every new branch with one of these prefixes:
 | `imp/`  | An improvement to something that already exists | `imp/semantic-html`  |
 
 After the prefix, use a short, lowercase, hyphen-separated description of the change.
+
+## Commits and pushes
+
+Do not commit or push anything until the repository owner explicitly asks for it.
+Leave changes uncommitted in the working tree and report what changed instead.
+
+## Changelog
+
+Record every change made to the project in `CHANGELOG.md`, under the `Unreleased` section, at the time the change is made.
+Group entries under `Added`, `Changed`, `Fixed` or `Removed`, following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+The site is deployed from the `main` branch. Before pushing changes to `main`, rename the `Unreleased` section to the publication date (`## YYYY-MM-DD`) and add a new, empty `Unreleased` section above it.
